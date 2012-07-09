@@ -15,7 +15,34 @@ require File.expand_path(File.dirname(__FILE__) + '/edgecase')
 class Proxy
   def initialize(target_object)
     @object = target_object
+    # Create a messages array that contains a record of the methods sent through the proxy object
+    @messages = []
     # ADD MORE CODE HERE
+  end
+
+  def method_missing(method_name, *args, &block)
+    # Record messages about the method called
+    @messages << method_name
+    # Send the unidentified method to the Television object to actually have the method's function execute
+    @object.send(method_name, *args, &block)
+  end
+
+  def messages
+    # Show messages of all the commands sent through the Proxy object
+    @messages
+  end
+
+  def called?(called_method)
+    # Has the method been called in the past? (Has it been added to the @messages variable?)
+    @messages.include? called_method
+  end
+
+  def number_of_times_called(called_method)
+    #How many times does the called_method appear in the @messages array (that's keeping a log of the commands)
+    # First, create array results with each entry being a return from the find_all method looking for a match of the called method in question
+    @results = @messages.find_all { |message| message == called_method }
+    #Then turn that into the quantity of appearances by returning the length of the array.
+    @results.length
   end
 
   # WRITE CODE HERE
