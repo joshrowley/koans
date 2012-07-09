@@ -31,9 +31,46 @@ require File.expand_path(File.dirname(__FILE__) + '/edgecase')
 
 def score(dice)
   # You need to write this method
+  # Make sure empty array returns score of zero
+  if dice.size < 1
+    return 0
+  end
+  # How to build?
+  # Will try creating a Hash to count how many times each parameter appears in the dice array.
+  # The keys in this hash will be the integers on the dice.
+  # The default value will be zero, thus each time the each method cycles through it will keep count of how many instances of that value of die roll have occurred.
+  # We can then use these numbers to calculate the scoring, hopefully quite easily.
+  countHash = Hash.new(0)
+  dice.each {|d| countHash[d] += 1}
+  result = 0
+  # Are there 3 or more of any number? Will iterate through the countHash to see
+  countHash.each do |die, count|
+    if count >= 3
+      #If key of iteration is equivalent to 1, we know to add 1000 points to the result
+      if die == 1
+        result += 1000
+      #Otherwise we should multiply the key (die value) by 100 and add to the result
+      else
+        result += (die * 100)
+      end
+      #Need to account for single instance scores of 1 and 5 if there are > 3 instances of a die value
+      count -= 3
+    end
+    # Run arithmetic for single instances
+    if die == 1
+      result += (count * 100)
+    end
+    if die == 5
+      result += (count * 50)
+    end
+  end
+  
+  # I'll now use the variable result to keep a running total of the points to score, adding to it when necessary
+  result
 end
 
 class AboutScoringProject < EdgeCase::Koan
+
   def test_score_of_an_empty_list_is_zero
     assert_equal 0, score([])
   end
