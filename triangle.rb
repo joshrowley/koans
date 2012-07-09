@@ -14,6 +14,7 @@
 #   about_triangle_project_2.rb
 #
 def triangle(a, b, c)
+
   if a == 0 || b == 0 || c == 0
   	raise TriangleError, "one or more sides is equivalent to 0"
   elsif a < 0 || b < 0 || c < 0 then
