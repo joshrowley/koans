@@ -16,28 +16,23 @@
 def triangle(a, b, c)
   if a == 0 || b == 0 || c == 0
   	raise TriangleError, "one or more sides is equivalent to 0"
-  end
-  if a < 0 || b < 0 || c < 0
+  elsif a < 0 || b < 0 || c < 0 then
   	raise TriangleError, "one or more sides is negative"
-  end
-  if a + b <= c || b + c <= a || c + a <= b
+  elsif a + b <= c || b + c <= a || c + a <= b
   	raise TriangleError, "the sum of two sides is smaller than the other side"
-  end
-  if  a == b
+  elsif  a == b
   	if a == c
   		return :equilateral
-  	end
-  	if a != c
+  	else
   		return :isosceles
-  	end
-  if a == c
+    end
+  elsif a == c || b == c
   	return :isosceles
-  end
   else
   	return :scalene
   end
-
 end
+
 
 # Error class used in part 2.  No need to change this code.
 class TriangleError < StandardError
